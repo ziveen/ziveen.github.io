@@ -8,6 +8,6 @@
 ## Rxjs
 
 ## 算法
-- [动态规划]()
+- [动态规划](https://github.com/Luefeng/Blog/issues/5)
 
 ## 杂谈
