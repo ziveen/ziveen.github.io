@@ -6,7 +6,7 @@
 ## React
 
 ## Rxjs
-- [从入门到放弃1]（）
+- [从入门到放弃1](https://github.com/Luefeng/Blog/issues/6)
 ## 算法
 - [动态规划](https://github.com/Luefeng/Blog/issues/5)
 
