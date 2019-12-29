@@ -1,0 +1,6 @@
+# Created by .ignore support plugin (hsz.mobi)
+node_modules/
+.vuepress/dist/
+.idea/
+.vs-code/
+.DS_Store
