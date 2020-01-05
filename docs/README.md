@@ -1,7 +1,8 @@
 # Blog
 记录学习过程的点滴
 
-## Javascript
+## Typescript
+- [typescript下react踩坑笔记](/posts/typescript/index)
 
 ## React
 - [更多文章](/posts/react/react-hooks)
