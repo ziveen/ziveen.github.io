@@ -4,3 +4,4 @@ node_modules/
 .vs-code/
 .DS_Store
 .yarn-err.log
+docs/.vuepress/dist
