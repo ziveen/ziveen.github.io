@@ -3,3 +3,4 @@ node_modules/
 .idea/
 .vs-code/
 .DS_Store
+.yarn-err.log

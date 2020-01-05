@@ -2,17 +2,20 @@
   "name": "post",
   "version": "1.0.0",
   "description": "blog notes my daily",
-  "homepage": "https://github.com/Novcy/blog.git#readme.md",
+  "homepage": "https://github.com/natto/Blog.git#README.md",
+  "main": "index.js",
   "scripts": {
-    "dev": "vuepress dev",
-    "build": "vuepress build"
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs",
+    "deploy": "vuepress build docs && gh-pages -b gh-pages -d dist"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/natto605/Blog.git"
   },
   "dependencies": {},
   "devDependencies": {
+    "gh-pages": "^2.1.1",
     "vuepress": "^1.2.0"
   }
 }
