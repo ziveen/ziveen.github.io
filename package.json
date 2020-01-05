@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
-    "deploy": "vuepress build docs && gh-pages -b gh-pages -d docs/.vuepress/dist"
+    "deploy": "vuepress build docs && gh-pages -b gh-pages -d docs/.vuepress/dist",
+    "build:images": "sh docker.images.sh"
   },
   "repository": {
     "type": "git",
