@@ -1,0 +1,13 @@
+name: CI Runer
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Dependence
+      run: |
+        npm install -g yarn
+        yarn --frozen-lockfile --non-interactive
+      - name: Build
+        run: yarn build
