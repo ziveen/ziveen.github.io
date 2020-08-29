@@ -1,13 +1,14 @@
 module.exports = {
   siteMetadata: {
-    title: `Blog`,
+    title: `kazekage605 Blog`,
     author: `kazekage605`,
     description: `点滴前端`,
-    siteUrl: `https://gatsby-starter-blog-demo.netlify.com/`,
+    siteUrl: `http://kazekage605.github.io/`,
     social: {
       twitter: `kazekage0605`,
     },
   },
+  pathPrefix: '/blog',
   plugins: [
     {
       resolve: `gatsby-source-filesystem`,
