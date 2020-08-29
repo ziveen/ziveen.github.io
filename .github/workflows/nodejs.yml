@@ -5,11 +5,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checlkout@v1
+      - uses: actions/checkout@v1
       - name: Use Nodejs 12.x
         uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: 12.x
       - name: Cache Npm depencies
         uses: actions/cache@v1
       - name: Install Dependence
