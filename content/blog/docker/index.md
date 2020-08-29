@@ -18,7 +18,7 @@ docker是一个开源的应用容器引擎，可以为我们提供安全、可�
 我们前端的web应用基本是单页应用，以我搭建博客为例子。我使用的是vuepress(一个很好的以vue为基础的工具)。
 在根目录创建一个`dockerfile`文件并搭配nginx。其配置如下：
 ```Dockerfile
-From node
+From node:alpine
 
 # 设置环境变量
 ENV NODE_ENV product

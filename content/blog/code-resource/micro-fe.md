@@ -1,6 +1,6 @@
 ---
 title: "粗读微前端框架《alibabacloud-console-os》"
-data: 2020-8-28
+date: "2020-08-28"
 description: 谈谈微前端的实现方式
 ---
 
