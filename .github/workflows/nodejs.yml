@@ -10,8 +10,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12.x
-      - name: Cache Npm depencies
-        uses: actions/cache@v1
+      - name: Cache NPM dependencies
+          uses: actions/cache@v1
+            with:
+              path: ~/.npm
+              key: ${{ runner.OS }}-npm-cache
+              restore-keys: |
+                ${{ runner.OS }}-npm-cache
       - name: Install Dependence
         run: |
           npm install -g yarn
