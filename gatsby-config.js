@@ -1,14 +1,13 @@
 module.exports = {
   siteMetadata: {
-    title: `kazekage605 Blog`,
+    title: `凌羡`,
     author: `kazekage605`,
-    description: `点滴前端`,
+    description: `前端杂记`,
     siteUrl: `http://kazekage605.github.io/`,
     social: {
       twitter: `kazekage0605`,
     },
   },
-  pathPrefix: '/blog',
   plugins: [
     {
       resolve: `gatsby-source-filesystem`,

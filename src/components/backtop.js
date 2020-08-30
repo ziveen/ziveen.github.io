@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default class BackTop extends React.Component {
-    hanleClick = () => {
+  handleClick = () => {
         document.body.scrollTop = document.documentElement.scrollTop = 0
     }
     render() {
@@ -19,9 +19,9 @@ export default class BackTop extends React.Component {
                     outline: 'none',
                     border: 0
                 }}
-                onClick={this.hanleClick}
+                onClick={this.handleClick}
             >
-                <span>回到顶部</span>
+                <img src='../asserts/backTop.svg' />
             </button>
         )
     }
