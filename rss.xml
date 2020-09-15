@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[凌羡]]></title><description><![CDATA[前端杂记]]></description><link>http://kazekage605.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 15 Sep 2020 16:24:06 GMT</lastBuildDate><item><title><![CDATA[粗读微前端框架《alibabacloud-console-os》]]></title><description><![CDATA[微前端实现的要点： 沙箱 样式隔离 沙箱 样式隔离]]></description><link>http://kazekage605.github.io/code-resource/micro-fe/</link><guid isPermaLink="false">http://kazekage605.github.io/code-resource/micro-fe/</guid><pubDate>Fri, 28 Aug 2020 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;微前端实现的要点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;#%E6%B2%99%E7%AE%B1&quot;&gt;沙箱&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;#%E6%A0%B7%E5%BC%8F%E9%9A%94%E7%A6%BB&quot;&gt;样式隔离&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;沙箱&lt;/h2&gt;
+&lt;h2&gt;样式隔离&lt;/h2&gt;</content:encoded></item><item><title><![CDATA[webpack笔记（一）]]></title><description><![CDATA[前言 这篇文章假设你已经用过的webpack,并对webpack的loader有一个基本的了解，如果对webpack不了解，建议从官方文档开始。 接下来从三个方面来讲讲loader: 什么是webpack loader webpack loader开发的原则 webpack…]]></description><link>http://kazekage605.github.io/webpack/webpack-loader/</link><guid isPermaLink="false">http://kazekage605.github.io/webpack/webpack-loader/</guid><pubDate>Thu, 09 Jan 2020 00:00:00 GMT</pubDate><content:encoded>&lt;h2&gt;前言&lt;/h2&gt;
+&lt;p&gt;这篇文章假设你已经用过的webpack,并对webpack的loader有一个基本的了解，如果对webpack不了解，建议从&lt;a href=&quot;https://www.webpackjs.com/&quot;&gt;官方文档&lt;/a&gt;开始。&lt;/p&gt;
+&lt;p&gt;接下来从三个方面来讲讲loader:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;什么是webpack loader&lt;/li&gt;
+&lt;li&gt;webpack loader开发的原则&lt;/li&gt;
+&lt;li&gt;webpack loader开发实践&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;loader介绍&lt;/h2&gt;
+&lt;p&gt;webpack loader只是一个导出为函数的 JavaScript 模块。loader runner 会调用这个函数，然后把上一个 loader 产生的结果或者资源文件(resource file)传入进去。然后，把返回处理结果应该是 String 或者 Buffer（被转换为一个 string）。另外还可以传递一个可选的 SourceMap 结果（格式为 JSON 对象）。&lt;/p&gt;
+&lt;p&gt;loader的调用顺序是从倒序的。比如：我们处理less文件的时候，我们会这样写：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascrip&quot;&gt;&lt;pre class=&quot;language-javascrip&quot;&gt;&lt;code class=&quot;language-javascrip&quot;&gt;module: {
+  rules: [
+   {test: /.less$/, use:[&amp;#39;style-loader&amp;#39;, &amp;#39;css-loader&amp;#39;, &amp;#39;style-loader&amp;#39;]}
+ ]
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;会先调用less-loader将less文件转化为css，再调用css-loader处理css代码，最后再调用style-loader将css处理为style样式。&lt;/p&gt;
+&lt;h2&gt;loader开发的规范&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;单一职责
+一个loader只处理单一任务，避免多任务耦合。&lt;/li&gt;
+&lt;li&gt;链式&lt;/li&gt;
+&lt;li&gt;模块化&lt;/li&gt;
+&lt;li&gt;无状态&lt;/li&gt;
+&lt;li&gt;工具库&lt;/li&gt;
+&lt;li&gt;模块依赖&lt;/li&gt;
+&lt;li&gt;loader依赖&lt;/li&gt;
+&lt;li&gt;共用模块&lt;/li&gt;
+&lt;li&gt;绝对路径&lt;/li&gt;
+&lt;li&gt;同等依赖&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;loader开发实践&lt;a href=&quot;https://github.com/cuzvin/learn-webpack-loader&quot;&gt;本地开发loader&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;本地开发loader为避免修改需要重复发布loader到npm，可以有两种方式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用npm link方式&lt;/li&gt;
+&lt;li&gt;使用webpack的提供的方法&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;resolveLoader方法
+因为webpack的使用的loader默认使用的&lt;code class=&quot;language-text&quot;&gt;node_modules&lt;/code&gt;里面的文件，所以提供&lt;code class=&quot;language-text&quot;&gt;resolveLoader&lt;/code&gt;方法，可以引用其他文件，比如：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;resolveLoader&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+modules&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;path&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;__dirname&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;loader/**&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;node_modules&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用路径追踪到本地loader所在的地址&lt;/p&gt;
+&lt;p&gt;比如：我在本地根路径下新建文件&lt;code class=&quot;language-text&quot;&gt;loaders/my-loader.js&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;javascript&quot;&gt;&lt;pre class=&quot;language-javascript&quot;&gt;&lt;code class=&quot;language-javascript&quot;&gt;module&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+   rules&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+       &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;test&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token regex&quot;&gt;/\.js$/&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; loader&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; path&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;__dirname&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;loaders/my-loader.js&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+   &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[从零开始学docker]]></title><description><![CDATA[这篇文章是一篇发布web应用的实战文章，不会详细介绍docker原理、优缺点等。因为我刚开始学，还没有get到。 docker简介 docker是一个开源的应用容器引擎，可以为我们提供安全、可移植、可重复的自动化部署的方式。docker…]]></description><link>http://kazekage605.github.io/docker/</link><guid isPermaLink="false">http://kazekage605.github.io/docker/</guid><pubDate>Wed, 09 Jan 2019 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;这篇文章是一篇发布web应用的实战文章，不会详细介绍docker原理、优缺点等。因为我刚开始学，还没有get到。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;docker简介&lt;/h2&gt;
+&lt;p&gt;docker是一个开源的应用容器引擎，可以为我们提供安全、可移植、可重复的自动化部署的方式。docker采用虚拟化的技术来虚拟化出应用程序的运行环境。如上图一样。docker就像一艘轮船。而轮船上面的每个小箱子可以看成我们需要部署的一个个应用。使用docker可以充分利用服务器的系统资源，简化了自动化部署和运维的繁琐流程,减少很多因为开发环境中和生产环境中的不同引发的异常问题。从而提高生产力。
+  docker三个核心概念如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;镜像（images）：一个只读的模板，可以理解为应用程序的运行环境，包含了程序运行所依赖的环境和基本配置。相当于上图中的每个小箱子里面装的东西。&lt;/li&gt;
+&lt;li&gt;仓库（repository）：一个用于存放镜像文件的仓库。可以看做和gitlab一样。&lt;/li&gt;
+&lt;li&gt;容器（container）：一个运行应用程序的虚拟容器，他和镜像最大的区别在于容器的最上面那一层是可读可写的。 相当于上图中的每个小箱子里。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;构建web应用&lt;/h2&gt;
+&lt;p&gt;我们前端的web应用基本是单页应用，以我搭建博客为例子。我使用的是vuepress(一个很好的以vue为基础的工具)。
+在根目录创建一个&lt;code class=&quot;language-text&quot;&gt;dockerfile&lt;/code&gt;文件并搭配nginx。其配置如下：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;dockerfile&quot;&gt;&lt;pre class=&quot;language-dockerfile&quot;&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;From&lt;/span&gt; node&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;alpine
+
+&lt;span class=&quot;token comment&quot;&gt;# 设置环境变量&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;ENV&lt;/span&gt; NODE_ENV product
+
+&lt;span class=&quot;token comment&quot;&gt;# 缓存node_modules&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;COPY&lt;/span&gt; package*.json /app/
+
+&lt;span class=&quot;token comment&quot;&gt;# 工作目录&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;WORKDIR&lt;/span&gt; /app
+
+&lt;span class=&quot;token comment&quot;&gt;# 安装依赖&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;RUN&lt;/span&gt; npm install &lt;span class=&quot;token punctuation&quot;&gt;-&lt;/span&gt;registry=https&lt;span class=&quot;token punctuation&quot;&gt;:&lt;/span&gt;//registry.npm.taobao.org
+
+&lt;span class=&quot;token comment&quot;&gt;# 拷贝源代码到工作目录&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;COPY&lt;/span&gt; . /app
+
+&lt;span class=&quot;token comment&quot;&gt;# 打包&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;RUN&lt;/span&gt; npm run build
+
+&lt;span class=&quot;token comment&quot;&gt;# 暴露端口&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;EXPOSE&lt;/span&gt; 80
+
+&lt;span class=&quot;token comment&quot;&gt;# 启动nginx，关闭守护式运行，否则容器启动后会立刻关闭&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;CMD&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;nginx&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;-g&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;daemon off;&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;nginx&quot;&gt;&lt;pre class=&quot;language-nginx&quot;&gt;&lt;code class=&quot;language-nginx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;server&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;listen&lt;/span&gt;      &lt;span class=&quot;token number&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;server_name&lt;/span&gt; localhost&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;location&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;# web应用的内容&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;root&lt;/span&gt;    &lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;app&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;docs&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;vuepress&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;dist&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;index&lt;/span&gt;   &lt;span class=&quot;token keyword&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;html &lt;span class=&quot;token keyword&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;htm&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;try_files&lt;/span&gt;   &lt;span class=&quot;token variable&quot;&gt;$uri&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$uri&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;html&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;error_page&lt;/span&gt;  &lt;span class=&quot;token number&quot;&gt;500&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;502&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;503&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;504&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;50&lt;/span&gt;x&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;html&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;location&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;50&lt;/span&gt;x&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;html &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;root&lt;/span&gt;    &lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;usr&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;share&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;nginx&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;html&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;构建镜像&lt;br&gt;
+&lt;code class=&quot;language-text&quot;&gt;docker build -t hanxy/vuepress_blog .&lt;/code&gt;,使用docker images就能看到如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;../../static/docker-images.png&quot; alt=&quot;docker镜像&quot;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;新建的镜像版本都是latest,这时我们若需要管理版本，则可以使用docker tag功能
+&lt;code class=&quot;language-text&quot;&gt;docker tag imageId hanxy/vuepress_blog:v1.0&lt;/code&gt;,镜像名称后面跟随的就是版本号&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;启动容器
+&lt;code class=&quot;language-text&quot;&gt;docker run -d --name vuepress_blog -p 8080:80 hanxy/vuepress_blog&lt;/code&gt;
+参数说明：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;-d&lt;/li&gt;
+&lt;li&gt;—name给容器创建名称&lt;/li&gt;
+&lt;li&gt;-p应用访问的端口对应docker暴露端口，-P对应的是随机端口&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;创建完容器后，使用docker ps就可以看到正在运行的容器，此时打开页面&lt;a href=&quot;http://localhost:8080%E5%B0%B1%E8%83%BD%E7%9C%8B%E5%88%B0%E6%88%91%E4%BB%AC%E6%9E%84%E5%BB%BA%E7%9A%84%E5%BA%94%E7%94%A8%E3%80%82&quot;&gt;http://localhost:8080就能看到我们构建的应用。&lt;/a&gt;
+停止应用：docker stop containerId,启动容器docker start containerId&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;创建自己的镜像并推送dockerhub
+dockerhub是一个类似npm的仓库管理工具，我们可以托管自己的镜像。例如我想要使用mysql这个镜像，我们使用docker search查找想要的镜像，使用docker pull拉去对用的镜像到本地，免去繁琐的mysql安装。我们推送自己的镜像也是很容易的：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先我们得创建自己的docker账号&lt;/li&gt;
+&lt;li&gt;docker login输入自己的账号和密码&lt;/li&gt;
+&lt;li&gt;docker push 用户名/容器名，比如我的上面的容器：hanxy/vuepress_blog&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;发布阿里云服务器&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先要在阿里云服务器上创建docker工具，安装方法大家自行搜索&lt;/li&gt;
+&lt;li&gt;从自己的dockerhub上拉去镜像运行即可&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;以上我只是我刚入门到发布自己的博客的实践过程，内容是相当简陋，算是给大家入门介绍一点东西。docker还是比较深东西比较多，后续还有k8s这些，想要更深入了解还🉐️靠大家自己多摸索实践。&lt;/p&gt;
+&lt;h2&gt;参考&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/84894157&quot;&gt;写给前端工程师看的Docker教程-实战篇&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://yq.aliyun.com/articles/336442&quot;&gt;阿里云CentOS 7上安装配置Docker&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://yeasy.gitbooks.io/docker_practice/install/centos.html&quot;&gt;Docker从入门到实战&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Typescript踩坑笔记]]></title><description><![CDATA[自定义hooks 自定义hooks，如果返回的数组类型，则必须明确的表明返回的数据状态，否则返回的数据数据类型完全一致 枚举类型的数据使用 通用的一个场景就是：根据后端返回的任务状态码显示对应的中文状态]]></description><link>http://kazekage605.github.io/typescript/</link><guid isPermaLink="false">http://kazekage605.github.io/typescript/</guid><pubDate>Wed, 09 Jan 2019 00:00:00 GMT</pubDate><content:encoded>&lt;h3&gt;自定义hooks&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;自定义hooks，如果返回的数组类型，则必须明确的表明返回的数据状态，否则返回的数据数据类型完全一致&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;// 🙅‍♂️错误示例
+function useFetch() {
+	const [loading,setLoading] = useState(false);
+	const [data,setData] = useState({});
+
+	useEffect(() =&amp;gt; {
+		// hooks使用async/await可以在内部定义一个函数
+		const fetchData = async () =&amp;gt; {
+			let result = await axios(config);
+			setLoading(true);
+			setData(result);
+		}
+	}, [])
+
+	return [loading,data]
+}
+
+// 使用过程
+
+function App() {
+	// 此时会提示loading的数据类型为：boolean | {}
+	const [loading,data] = useFetch(**);
+
+	return  &amp;lt;div&amp;gt;1212&amp;lt;/div&amp;gt;
+}
+
+// 显式的声名自定义hooks的返回数据类型就解决问题
+function useFetch(): [boolean,Object] {
+	// 上述代码
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;枚举类型的数据使用&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;通用的一个场景就是：根据后端返回的任务状态码显示对应的中文状态&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;// 如果不表明taskType的类型，下面的程序就会报错
+export const taskType = {
+    &amp;#39;0&amp;#39;: &amp;#39;草稿&amp;#39;,
+    &amp;#39;1&amp;#39;: &amp;#39;完成&amp;#39;,
+    &amp;#39;2&amp;#39;: &amp;#39;失效&amp;#39;,
+}
+// 对应antd表格中
+const columns= [
+	{
+		title: &amp;quot;任务状态&amp;quot;,
+		key: &amp;#39;taskType&amp;#39;,
+		render: (text:any, record:any) =&amp;gt; (
+				// expression of type &amp;#39;number&amp;#39; can&amp;#39;t be used to index type
+        &amp;lt;span&amp;gt;{taskType[text]}&amp;lt;/span&amp;gt;
+    )
+	}
+];
+
+// 方案一：
+interface TaskType {
+	[key:string]: string
+}
+
+export const taskType:TaskType = {
+    &amp;#39;0&amp;#39;: &amp;#39;草稿&amp;#39;,
+    &amp;#39;1&amp;#39;: &amp;#39;完成&amp;#39;,
+    &amp;#39;2&amp;#39;: &amp;#39;失效&amp;#39;,
+}
+
+// 使用枚举类型
+export enum TaskType {
+	&amp;quot;草稿&amp;quot;,
+	&amp;quot;完成&amp;quot;,
+	&amp;quot;失效&amp;quot;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item></channel></rss>
