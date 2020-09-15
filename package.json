@@ -36,9 +36,10 @@
     "typography-theme-wordpress-2016": "^0.16.19"
   },
   "devDependencies": {
+    "gh-pages": "^3.1.0",
     "prettier": "^1.19.1"
   },
-  "homepage": "https://github.com/kazekage605/kazekage605.github.io#readme",
+  "homepage": "https://github.com/kazekage605/kazekage605.github.io",
   "keywords": [
     "gatsby"
   ],
@@ -46,7 +47,7 @@
   "main": "n/a",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gatsbyjs/gatsby-starter-blog.git"
+    "url": "git+https://github.com/kazekage605/kazekage605.github.io"
   },
   "scripts": {
     "build": "gatsby build",
@@ -55,6 +56,7 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "publish": "yarn build && gh-pages -d public"
   }
 }
