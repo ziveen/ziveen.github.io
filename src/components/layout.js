@@ -64,7 +64,7 @@ class Layout extends React.Component {
         <h3
           style={{
             marginBottom: rhythm(1.5),
-            marginTop: 0,
+            marginTop: 10,
           }}
         >
           <Link
@@ -72,10 +72,12 @@ class Layout extends React.Component {
               boxShadow: `none`,
               textDecoration: `none`,
               color: `inherit`,
+              display: 'flex',
+              alignItems: 'center'
             }}
             to={`/`}
           >
-            {title}
+            <Bio/>{title}
           </Link>
         </h3>
       )
@@ -119,7 +121,6 @@ class Layout extends React.Component {
               marginBottom: '2.625rem',
             }}
           >{header}{this.renderToggle()}</header>
-          <Bio/>
           <main>{children}</main>
           <BackTop />
           <footer>
