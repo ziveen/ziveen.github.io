@@ -25,7 +25,7 @@ jobs:
         run: yarn build
         env:
           CI: true
-      - namr: Deploy
+      - name: Deploy
         uses: peaeiris/actions-gh-pages@v3
         with:
           github_token: ${{secrets.MY_BLOG_TOKEN}}
