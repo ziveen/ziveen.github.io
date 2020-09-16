@@ -26,7 +26,7 @@ jobs:
         env:
           CI: true
       - name: Deploy
-        uses: peaeiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{secrets.MY_BLOG_TOKEN}}
           publish_dir: ./public
