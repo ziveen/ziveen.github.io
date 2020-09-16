@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[凌羡]]></title><description><![CDATA[前端杂记]]></description><link>http://kazekage605.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 15 Sep 2020 16:40:49 GMT</lastBuildDate><item><title><![CDATA[粗读微前端框架《alibabacloud-console-os》]]></title><description><![CDATA[微前端实现的要点： 沙箱 样式隔离 沙箱 样式隔离]]></description><link>http://kazekage605.github.io/code-resource/micro-fe/</link><guid isPermaLink="false">http://kazekage605.github.io/code-resource/micro-fe/</guid><pubDate>Fri, 28 Aug 2020 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;微前端实现的要点：&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[凌羡]]></title><description><![CDATA[前端杂记]]></description><link>http://kazekage605.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Wed, 16 Sep 2020 12:55:12 GMT</lastBuildDate><item><title><![CDATA[No title]]></title><description><![CDATA[测试]]></description><link>http://kazekage605.github.io/2020/</link><guid isPermaLink="false">http://kazekage605.github.io/2020/</guid><content:encoded>&lt;h1&gt;测试&lt;/h1&gt;</content:encoded></item><item><title><![CDATA[粗读微前端框架《alibabacloud-console-os》]]></title><description><![CDATA[微前端实现的要点： 沙箱 样式隔离 沙箱 样式隔离]]></description><link>http://kazekage605.github.io/code-resource/micro-fe/</link><guid isPermaLink="false">http://kazekage605.github.io/code-resource/micro-fe/</guid><pubDate>Fri, 28 Aug 2020 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;微前端实现的要点：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;#%E6%B2%99%E7%AE%B1&quot;&gt;沙箱&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;#%E6%A0%B7%E5%BC%8F%E9%9A%94%E7%A6%BB&quot;&gt;样式隔离&lt;/a&gt;&lt;/li&gt;
@@ -56,79 +56,7 @@ modules&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span clas
    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Typescript踩坑笔记]]></title><description><![CDATA[自定义hooks 自定义hooks，如果返回的数组类型，则必须明确的表明返回的数据状态，否则返回的数据数据类型完全一致 枚举类型的数据使用 通用的一个场景就是：根据后端返回的任务状态码显示对应的中文状态]]></description><link>http://kazekage605.github.io/typescript/</link><guid isPermaLink="false">http://kazekage605.github.io/typescript/</guid><pubDate>Wed, 09 Jan 2019 00:00:00 GMT</pubDate><content:encoded>&lt;h3&gt;自定义hooks&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;自定义hooks，如果返回的数组类型，则必须明确的表明返回的数据状态，否则返回的数据数据类型完全一致&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;// 🙅‍♂️错误示例
-function useFetch() {
-	const [loading,setLoading] = useState(false);
-	const [data,setData] = useState({});
-
-	useEffect(() =&amp;gt; {
-		// hooks使用async/await可以在内部定义一个函数
-		const fetchData = async () =&amp;gt; {
-			let result = await axios(config);
-			setLoading(true);
-			setData(result);
-		}
-	}, [])
-
-	return [loading,data]
-}
-
-// 使用过程
-
-function App() {
-	// 此时会提示loading的数据类型为：boolean | {}
-	const [loading,data] = useFetch(**);
-
-	return  &amp;lt;div&amp;gt;1212&amp;lt;/div&amp;gt;
-}
-
-// 显式的声名自定义hooks的返回数据类型就解决问题
-function useFetch(): [boolean,Object] {
-	// 上述代码
-}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;枚举类型的数据使用&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;通用的一个场景就是：根据后端返回的任务状态码显示对应的中文状态&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;// 如果不表明taskType的类型，下面的程序就会报错
-export const taskType = {
-    &amp;#39;0&amp;#39;: &amp;#39;草稿&amp;#39;,
-    &amp;#39;1&amp;#39;: &amp;#39;完成&amp;#39;,
-    &amp;#39;2&amp;#39;: &amp;#39;失效&amp;#39;,
-}
-// 对应antd表格中
-const columns= [
-	{
-		title: &amp;quot;任务状态&amp;quot;,
-		key: &amp;#39;taskType&amp;#39;,
-		render: (text:any, record:any) =&amp;gt; (
-				// expression of type &amp;#39;number&amp;#39; can&amp;#39;t be used to index type
-        &amp;lt;span&amp;gt;{taskType[text]}&amp;lt;/span&amp;gt;
-    )
-	}
-];
-
-// 方案一：
-interface TaskType {
-	[key:string]: string
-}
-
-export const taskType:TaskType = {
-    &amp;#39;0&amp;#39;: &amp;#39;草稿&amp;#39;,
-    &amp;#39;1&amp;#39;: &amp;#39;完成&amp;#39;,
-    &amp;#39;2&amp;#39;: &amp;#39;失效&amp;#39;,
-}
-
-// 使用枚举类型
-export enum TaskType {
-	&amp;quot;草稿&amp;quot;,
-	&amp;quot;完成&amp;quot;,
-	&amp;quot;失效&amp;quot;
-}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item><item><title><![CDATA[从零开始学docker]]></title><description><![CDATA[这篇文章是一篇发布web应用的实战文章，不会详细介绍docker原理、优缺点等。因为我刚开始学，还没有get到。 docker简介 docker是一个开源的应用容器引擎，可以为我们提供安全、可移植、可重复的自动化部署的方式。docker…]]></description><link>http://kazekage605.github.io/docker/</link><guid isPermaLink="false">http://kazekage605.github.io/docker/</guid><pubDate>Wed, 09 Jan 2019 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[从零开始学docker]]></title><description><![CDATA[这篇文章是一篇发布web应用的实战文章，不会详细介绍docker原理、优缺点等。因为我刚开始学，还没有get到。 docker简介 docker是一个开源的应用容器引擎，可以为我们提供安全、可移植、可重复的自动化部署的方式。docker…]]></description><link>http://kazekage605.github.io/docker/</link><guid isPermaLink="false">http://kazekage605.github.io/docker/</guid><pubDate>Wed, 09 Jan 2019 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
 &lt;p&gt;这篇文章是一篇发布web应用的实战文章，不会详细介绍docker原理、优缺点等。因为我刚开始学，还没有get到。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2&gt;docker简介&lt;/h2&gt;
@@ -229,4 +157,76 @@ dockerhub是一个类似npm的仓库管理工具，我们可以托管自己的�
 &lt;li&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/84894157&quot;&gt;写给前端工程师看的Docker教程-实战篇&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://yq.aliyun.com/articles/336442&quot;&gt;阿里云CentOS 7上安装配置Docker&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://yeasy.gitbooks.io/docker_practice/install/centos.html&quot;&gt;Docker从入门到实战&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content:encoded></item></channel></rss>
+&lt;/ul&gt;</content:encoded></item><item><title><![CDATA[Typescript踩坑笔记]]></title><description><![CDATA[自定义hooks 自定义hooks，如果返回的数组类型，则必须明确的表明返回的数据状态，否则返回的数据数据类型完全一致 枚举类型的数据使用 通用的一个场景就是：根据后端返回的任务状态码显示对应的中文状态]]></description><link>http://kazekage605.github.io/typescript/</link><guid isPermaLink="false">http://kazekage605.github.io/typescript/</guid><pubDate>Wed, 09 Jan 2019 00:00:00 GMT</pubDate><content:encoded>&lt;h3&gt;自定义hooks&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;自定义hooks，如果返回的数组类型，则必须明确的表明返回的数据状态，否则返回的数据数据类型完全一致&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;// 🙅‍♂️错误示例
+function useFetch() {
+	const [loading,setLoading] = useState(false);
+	const [data,setData] = useState({});
+
+	useEffect(() =&amp;gt; {
+		// hooks使用async/await可以在内部定义一个函数
+		const fetchData = async () =&amp;gt; {
+			let result = await axios(config);
+			setLoading(true);
+			setData(result);
+		}
+	}, [])
+
+	return [loading,data]
+}
+
+// 使用过程
+
+function App() {
+	// 此时会提示loading的数据类型为：boolean | {}
+	const [loading,data] = useFetch(**);
+
+	return  &amp;lt;div&amp;gt;1212&amp;lt;/div&amp;gt;
+}
+
+// 显式的声名自定义hooks的返回数据类型就解决问题
+function useFetch(): [boolean,Object] {
+	// 上述代码
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;枚举类型的数据使用&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;通用的一个场景就是：根据后端返回的任务状态码显示对应的中文状态&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;// 如果不表明taskType的类型，下面的程序就会报错
+export const taskType = {
+    &amp;#39;0&amp;#39;: &amp;#39;草稿&amp;#39;,
+    &amp;#39;1&amp;#39;: &amp;#39;完成&amp;#39;,
+    &amp;#39;2&amp;#39;: &amp;#39;失效&amp;#39;,
+}
+// 对应antd表格中
+const columns= [
+	{
+		title: &amp;quot;任务状态&amp;quot;,
+		key: &amp;#39;taskType&amp;#39;,
+		render: (text:any, record:any) =&amp;gt; (
+				// expression of type &amp;#39;number&amp;#39; can&amp;#39;t be used to index type
+        &amp;lt;span&amp;gt;{taskType[text]}&amp;lt;/span&amp;gt;
+    )
+	}
+];
+
+// 方案一：
+interface TaskType {
+	[key:string]: string
+}
+
+export const taskType:TaskType = {
+    &amp;#39;0&amp;#39;: &amp;#39;草稿&amp;#39;,
+    &amp;#39;1&amp;#39;: &amp;#39;完成&amp;#39;,
+    &amp;#39;2&amp;#39;: &amp;#39;失效&amp;#39;,
+}
+
+// 使用枚举类型
+export enum TaskType {
+	&amp;quot;草稿&amp;quot;,
+	&amp;quot;完成&amp;quot;,
+	&amp;quot;失效&amp;quot;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item></channel></rss>
