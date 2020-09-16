@@ -21,7 +21,7 @@ jobs:
         run: |
           npm install -g yarn
           yarn --frozen-lockfile --non-interactive
-      - name: Publish
-        run: yarn build && gh-pages -d public
+      - name: Build
+        run: yarn publish
         env:
           CI: true
