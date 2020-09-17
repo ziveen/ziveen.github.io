@@ -3,7 +3,7 @@ module.exports = {
     title: `凌羡`,
     author: `kazekage605`,
     description: `前端杂记`,
-    siteUrl: `http://kazekage605.github.io/`,
+    siteUrl: `http://kazekage605.xyz`,
     social: {
       twitter: `kazekage0605`,
     },
